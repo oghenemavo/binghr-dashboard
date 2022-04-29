@@ -18,8 +18,11 @@ class DashboardController extends Controller
 
     public function create(StoreUserRequest $request, UserRepository $repository)
     {
-        // dd('yes');
         $user = $repository->create($request->all());
+        if ($user) {
+            return redirect()->back()->with('success', 'User Created');
+        }
+        return redirect()->back()->with('error', 'User Created');
     }
 
     public function edit()

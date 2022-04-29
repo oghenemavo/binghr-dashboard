@@ -101,6 +101,12 @@
                         Errors found!
                     </div>
                 @endif
+    
+                @if(session()->has('success'))
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        User Created Successfully
+                    </div>
+                @endif
 
                 <div class="d-flex justify-content-end">
                     <button data-toggle="modal" data-target="#addUser" class="btn btn-success my-4">Add User</button>
