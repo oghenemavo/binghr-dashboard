@@ -356,8 +356,12 @@
                 }],
             });
 
-             var is_selected = function($form_value, $value) {
+            var is_selected = function($form_value, $value) {
                 return $form_value == $value ? 'selected' : '';
+            };
+
+            var is_checked = function($base_role, $role, permission) {
+                return $base_role == $role && permission == '1' ? 'checked' : '';
             };
 
             // edit user
@@ -491,78 +495,26 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr>
-                                                <th scope="row">Super Admin</th>
-                                                <td>
-                                                    <div class="form-check">
-                                                        <input class="form-check-input" type="checkbox" id="" name="">
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="form-check">
-                                                        <input class="form-check-input" type="checkbox" id="" name="">
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="form-check">
-                                                        <input class="form-check-input" type="checkbox" id="" name="">
-                                                    </div>
-                                                </td>
-                                                </tr>
-                                                <tr>
-                                                <th scope="row">Admin</th>
-                                                <td>
-                                                    <div class="form-check">
-                                                        <input class="form-check-input" type="checkbox" id="" name="">
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="form-check">
-                                                        <input class="form-check-input" type="checkbox" id="" name="">
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="form-check">
-                                                        <input class="form-check-input" type="checkbox" id="" name="">
-                                                    </div>
-                                                </td>
-                                                </tr>
-                                                <tr>
-                                                <th scope="row">Employee</th>
-                                                <td>
-                                                    <div class="form-check">
-                                                        <input class="form-check-input" type="checkbox" id="" name="">
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="form-check">
-                                                        <input class="form-check-input" type="checkbox" id="" name="">
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="form-check">
-                                                        <input class="form-check-input" type="checkbox" id="" name="">
-                                                    </div>
-                                                </td>
-                                                </tr>
-                                                <tr>
-                                                <th scope="row">HR Admin</th>
-                                                <td>
-                                                    <div class="form-check">
-                                                        <input class="form-check-input" type="checkbox" id="" name="">
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="form-check">
-                                                        <input class="form-check-input" type="checkbox" id="" name="">
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="form-check">
-                                                        <input class="form-check-input" type="checkbox" id="" name="">
-                                                    </div>
-                                                </td>
-                                                </tr>
+                                                @foreach($roles as $key => $role)
+                                                    <tr>
+                                                        <th scope="row">{{ $role->name }}</th>
+                                                        <td>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="checkbox" id="" name="permission[{{ $role->id }}][]" value="read" ${is_checked("{{ $role->id }}", data.permissions["{{$key}}"].role_id, data.permissions["{{$key}}"].read)}>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="checkbox" id="" name="permission[{{ $role->id }}][]" value="write" ${is_checked("{{ $role->id }}", data.permissions["{{$key}}"].role_id, data.permissions["{{$key}}"].write)}>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="checkbox" id="" name="permission[{{ $role->id }}][]" value="delete" ${is_checked("{{ $role->id }}", data.permissions["{{$key}}"].role_id, data.permissions["{{$key}}"].delete)}>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                @endforeach
                                             </tbody>
                                         </table>
 

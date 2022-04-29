@@ -24,6 +24,7 @@ class DataController extends Controller
             $data['created_at'] = date('dS M, Y', strtotime($item->created_at));
             $data['name'] = ucfirst($item->first_name) . ' ' . $item->last_name;
             $data['role_id'] = $item->roles->first()->pivot->role_id;
+            $data['permissions'] = $item->permissions;
 
             return $data;
         });
