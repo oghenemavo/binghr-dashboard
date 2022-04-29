@@ -562,24 +562,25 @@
                         console.log(XMLHttpRequest.statusText)
                         console.log(errorThrown)
         
-                        let errors = XMLHttpRequest.responseJSON.errors;
-                        if (errors.hasOwnProperty('product_name')) {
-                            $('div[data-error="product_name"]').text(errors.product_name[0])
-                        } 
-                        if (errors.hasOwnProperty('price')) {
-                            $('div[data-error="price"]').text(errors.price[0])
-                        }
-                        if (errors.hasOwnProperty('quantity')) {
-                            $('div[data-error="quantity"]').text(errors.quantity[0])
-                        } 
-                        if (errors.hasOwnProperty('expires_at')) {
-                            $('div[data-error="expires_at"]').text(errors.expires_at[0])
-                        }
-                        if (errors.hasOwnProperty('description')) {
-                            $('div[data-error="description"]').text(errors.description[0])
-                        }
+                        // console.log(XMLHttpRequest)
+                        // let errors = XMLHttpRequest.responseJSON.errors;
+                        // if (errors.hasOwnProperty('product_name')) {
+                        //     $('div[data-error="product_name"]').text(errors.product_name[0])
+                        // } 
+                        // if (errors.hasOwnProperty('price')) {
+                        //     $('div[data-error="price"]').text(errors.price[0])
+                        // }
+                        // if (errors.hasOwnProperty('quantity')) {
+                        //     $('div[data-error="quantity"]').text(errors.quantity[0])
+                        // } 
+                        // if (errors.hasOwnProperty('expires_at')) {
+                        //     $('div[data-error="expires_at"]').text(errors.expires_at[0])
+                        // }
+                        // if (errors.hasOwnProperty('description')) {
+                        //     $('div[data-error="description"]').text(errors.description[0])
+                        // }
                 
-                        $(this).find('button').attr('disabled', false);
+                        // $(this).find('button').attr('disabled', false);
                 
                         // display toast alert
                         // display toast alert
