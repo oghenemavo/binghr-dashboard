@@ -35,3 +35,4 @@ Instructions on how to use them in your own application are linked below.
 | Jquery Validate | https://jqueryvalidation.org/documentation/ |
 | Datatables | https://datatables.net/examples/styling/bootstrap4 |
 | Laravel | https://laravel.com/docs/8.x/installation |
+| Sweet Alert | https://sweetalert2.github.io/#usage |
