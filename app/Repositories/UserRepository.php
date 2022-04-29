@@ -8,6 +8,7 @@ class UserRepository
 {
     public function create(array $attributes)
     {
+        dd($attributes);
         $user = User::create([
             'first_name' => data_get($attributes, 'first_name'),
             'last_name' => data_get($attributes, 'last_name'),

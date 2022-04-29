@@ -1,0 +1,45 @@
+<?php
+
+namespace Database\Seeders;
+
+use App\Models\Role;
+use Carbon\Carbon;
+use Illuminate\Database\Seeder;
+
+class RoleSeeder extends Seeder
+{
+    /**
+     * Run the database seeds.
+     *
+     * @return void
+     */
+    public function run()
+    {
+        Role::insert([
+            [
+                'name' => 'Super Admin',
+                'slug' => 'super_admin',
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ],
+            [
+                'name' => 'Admin',
+                'slug' => 'admin',
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ],
+            [
+                'name' => 'HR Admin',
+                'slug' => 'hr_admin',
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ],
+            [
+                'name' => 'Employee',
+                'slug' => 'employee',
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ],
+        ]);
+    }
+}

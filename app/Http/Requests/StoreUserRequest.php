@@ -24,13 +24,14 @@ class StoreUserRequest extends FormRequest
     public function rules()
     {
         return [
-            'first_name' => 'required|min:3',
-            'last_name' => 'required|min:3',
-            'email' => 'required|unique:users,email',
-            'username' => 'required|unique:users,username',
-            'mobile_no' => 'min:10',
-            'password' => 'required|min:5|confirmed',
-            'role' => 'required',
+            // 'employee_id' => 'required|min:3',
+            // 'first_name' => 'required|min:3',
+            // 'last_name' => 'required|min:3',
+            // 'email' => 'required|unique:users,email',
+            // 'username' => 'required|unique:users,username',
+            // 'mobile_no' => 'min:10',
+            // 'password' => 'required|min:5|confirmed',
+            // 'role' => 'required',
         ];
     }
 }

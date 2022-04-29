@@ -93,8 +93,15 @@
                     </button>
                 </div>
             </nav>
-
+            
             <div class="container py-3">
+    
+                @if($errors->any())
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        Errors found!
+                    </div>
+                @endif
+
                 <div class="d-flex justify-content-end">
                     <button data-toggle="modal" data-target="#addUser" class="btn btn-success my-4">Add User</button>
                 </div>
@@ -109,44 +116,104 @@
                           </button>
                         </div>
                         <div class="modal-body">
-                            <form id="add_user_form" action="" method="post">
+                            <form id="" action="{{ route('create.user') }}" method="post">
+                                @csrf
                                 <div class="form-group">
-                                    <input type="text" class="form-control" id="employee_id" name="employee_id" placeholder="Employee ID*">
+                                    <input type="text" class="form-control @error('employee_id') is-invalid @enderror" id="employee_id" name="employee_id" placeholder="Employee ID*">
+                                    @error('employee_id')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
                                 </div>
 
                                 <div class="row mb-3">
                                     <div class="col">
-                                      <input type="text" class="form-control" id="first_name" name="first_name" placeholder="First name*">
+                                      <input type="text" class="form-control @error('first_name') is-invalid @enderror" id="first_name" name="first_name" placeholder="First name*">
+                                        @error('first_name')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                        @enderror
                                     </div>
                                     <div class="col">
-                                      <input type="text" class="form-control" id="last_name" name="last_name" placeholder="Last name*">
+                                      <input type="text" class="form-control @error('first_name') is-invalid @enderror" id="last_name" name="last_name" placeholder="Last name*">
+                                      @error('last_name')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                        @enderror
+                                    </div>
+                                    <div class="col">
+                                        <select id="position" name="position" class="custom-select @error('position') is-invalid @enderror">
+                                            <option value="">Choose Position...</option>
+                                            <option value="admin">Admin</option>
+                                            <option value="admin">Admin</option>
+                                            <option value="admin">Admin</option>
+                                            <option value="admin">Admin</option>
+                                        </select>
+                                        @error('position')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
                                     </div>
                                 </div>
 
                                 <div class="row mb-3">
                                     <div class="col">
-                                      <input type="email" class="form-control" id="email" name="email" placeholder="Email ID*">
+                                      <input type="email" class="form-control @error('first_name') is-invalid @enderror" id="email" name="email" placeholder="Email ID*">
+                                      @error('email')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
                                     </div>
                                     <div class="col">
-                                      <input type="tel" class="form-control" id="mobile_no" name="mobile_no" placeholder="Mobile No.">
+                                      <input type="tel" class="form-control @error('mobile_no') is-invalid @enderror" id="mobile_no" name="mobile_no" placeholder="Mobile No.">
+                                      @error('mobile_no')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                        @enderror
                                     </div>
                                     <div class="col">
-                                        <select id="role" name="role" class="custom-select">
+                                        <select id="role" name="role" class="custom-select @error('role') is-invalid @enderror">
                                             <option value="">Choose Role...</option>
                                             <option value="admin">Admin</option>
                                         </select>
+                                        @error('role')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
                                     </div>
                                 </div>
 
                                 <div class="row mb-3">
                                     <div class="col">
-                                      <input type="text" class="form-control" id="username" name="username" placeholder="Username*">
+                                      <input type="text" class="form-control @error('username') is-invalid @enderror" id="username" name="username" placeholder="Username*">
+                                      @error('username')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
                                     </div>
                                     <div class="col">
-                                      <input type="password" class="form-control" id="password" name="password" placeholder="Password*">
+                                      <input type="password" class="form-control @error('password') is-invalid @enderror" id="password" name="password" placeholder="Password*">
+                                      @error('password')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
                                     </div>
                                     <div class="col">
-                                      <input type="password" class="form-control" id="password_confirmation" name="password_confirmation" placeholder="Confirm Password*">
+                                      <input type="password" class="form-control @error('password_confirmation') is-invalid @enderror" id="password_confirmation" name="password_confirmation" placeholder="Confirm Password*">
+                                      @error('password_confirmation')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
                                     </div>
                                 </div>
 
@@ -317,6 +384,7 @@
                 </table>
                 <!-- dataTable ends -->
             </div>
+
         </div>
     </div>
 

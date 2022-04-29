@@ -16,6 +16,7 @@ class DashboardController extends Controller
 
     public function create(StoreUserRequest $request, UserRepository $repository)
     {
+        // dd('yes');
         $user = $repository->create($request->all());
     }
 
