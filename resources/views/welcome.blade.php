@@ -326,7 +326,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
+                        <!-- <tr>
                             <td>
                                 <div class="user-card">
                                     <div class="user-avatar bg-dim-primary d-none d-sm-flex">
@@ -344,45 +344,7 @@
                                 <a href="#"><i class="bi bi-vector-pen"></i></a>
                                 &nbsp;&nbsp;<a href="#"><i class="bi bi-trash"></i></a>
                             </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <div class="user-card">
-                                    <div class="user-avatar bg-dim-primary d-none d-sm-flex">
-                                        <span>AB</span>
-                                    </div>
-                                    <div class="user-info">
-                                        <span class="tb-lead">Abu Bin Ishtiyak <span class="dot dot-success d-md-none ms-1"></span></span>
-                                        <span>info@softnio.com</span>
-                                    </div>
-                                </div>
-                            </td>
-                            <td>24th Oct, 2022</td>
-                            <td>System Architect</td>
-                            <td>
-                                <a href="#"><i class="bi bi-vector-pen"></i></a>
-                                &nbsp;&nbsp;<a href="#"><i class="bi bi-trash"></i></a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <div class="user-card">
-                                    <div class="user-avatar bg-dim-primary d-none d-sm-flex">
-                                        <span>AB</span>
-                                    </div>
-                                    <div class="user-info">
-                                        <span class="tb-lead">Abu Bin Ishtiyak <span class="dot dot-success d-md-none ms-1"></span></span>
-                                        <span>info@softnio.com</span>
-                                    </div>
-                                </div>
-                            </td>
-                            <td>24th Oct, 2022</td>
-                            <td>System Architect</td>
-                            <td>
-                                <a href="#"><i class="bi bi-vector-pen"></i></a>
-                                &nbsp;&nbsp;<a href="#"><i class="bi bi-trash"></i></a>
-                            </td>
-                        </tr>
+                        </tr> -->
                     </tbody>
                 </table>
                 <!-- dataTable ends -->
@@ -401,6 +363,8 @@
 
     <!-- Jquery Validate -->
     <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.min.js"></script>
+
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     
     <script>
         $(document).ready(function() {
@@ -410,16 +374,122 @@
             });
 
             $('#users').DataTable({
+                ajax: {
+                    url: `{{ route('api.get.users') }}`,
+                    dataSrc: 'users'
+                },
+                columns: [
+                    { 
+                        data: 'name',
+                        render: function(data, type, full, meta) {
+                            return `
+                                <div class="user-card">
+                                    <div class="user-avatar bg-dim-primary d-none d-sm-flex">
+                                        <span>${full.initials}</span>
+                                    </div>
+                                    <div class="user-info">
+                                        <span class="tb-lead">${full.name} <span class="dot dot-success d-md-none ms-1"></span></span>
+                                        <span>${full.email}</span>
+                                    </div>
+                                </div>
+                            `;
+                        }
+                    },
+                    { data: 'created_at' },
+                    { data: 'position' },
+                ],
                 "columnDefs": [{
+                    "targets": 3,
                     "searchable": false,
                     "orderable": false,
-                    "targets": 3
+                    "data": null,
+                    "render": function(data, type, full, meta) {
+                        return `
+                            <ul class="list-unstyled d-flex">
+                                <li>
+                                    <a href="#edit_user" class="btn"><i class="bi bi-vector-pen"></i></a>
+                                </li>
+                                <li>
+                                    <a href="#remove_user" class="btn"><i class="bi bi-trash"></i></a>
+                                </li>
+                            </ul>
+                        `;
+                    }
                 }],
             });
 
-            $('#add_user_btn').on('click', function() {
-                console.log(1111111);
+            // remove user
+            $('#users tbody').on('click', 'a[href="#remove_user"]', function (e) {
+                e.preventDefault();
+                const dt = $.fn.DataTable.Api( $('#users') ).row( $(this).parents('tr') );
+                let data = dt.data(); // row data
+
+                // console.log(data);
+
+                console.log('yess')
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: "You won't be able to revert this!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, delete it!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            type: 'DELETE',
+                            url: "{{ route('api.delete.user') }}",
+                            data: {
+                            "_token": "{{ csrf_token() }}", 
+                                user_id: data.id,
+                            },
+                            success: function(response) {
+                                if (response.hasOwnProperty('status') && response.status) {
+                                    Swal.fire(
+                                    'Deleted!',
+                                    response.message,
+                                    'success'
+                                    );
+                                } else {
+                                    Swal.fire({
+                                        position: 'top-end',
+                                        icon: 'warning',
+                                        title: response.message,
+                                        showConfirmButton: false,
+                                        timer: 2000
+                                    });
+                                }
+                                $('#users').DataTable().ajax.reload();
+                                // setTimeout( () =>  window.location.replace(`${window.location.origin}${window.location.pathname}`), 3000);
+                            },
+                            error: function(XMLHttpRequest, textStatus, errorThrown) {
+                                console.log( XMLHttpRequest.responseJSON.errors);
+                                console.log(XMLHttpRequest.status)
+                                console.log(XMLHttpRequest.statusText)
+                                console.log(errorThrown)
+                        
+                                // display toast alert
+                                Swal.fire({
+                                    position: 'top-end',
+                                    icon: 'danger',
+                                    title: 'Unable to process request now.',
+                                    showConfirmButton: false,
+                                    timer: 2000
+                                });
+                            }
+                        });
+
+
+
+
+                        
+                    }
+                })
+
             });
+
+
             $("#add_user_form").validate({
                 errorClass: 'invalid-feedback',
                 highlight: function(element, errorClass, validClass) {
