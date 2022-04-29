@@ -122,7 +122,7 @@
                           </button>
                         </div>
                         <div class="modal-body">
-                            <form id="" action="{{ route('create.user') }}" method="post">
+                            <form id="add_user_form" action="{{ route('create.user') }}" method="post">
                                 @csrf
                                 <div class="form-group">
                                     <input type="text" class="form-control @error('employee_id') is-invalid @enderror" id="employee_id" name="employee_id" placeholder="Employee ID*">
@@ -594,24 +594,24 @@
                     }
                 };
                 
-                $('#update_user').validate({
+                $(`#edit-user-${dt.index()}`).validate({
                     rules: {
-                        // employee_id: "required",
-                        // first_name: "required",
-                        // last_name: "required",
-                        // role: "required",
-                        // position: "required",
-                        // username: "required",
-                        // email: {
-                        //     required: true,
-                        //     email: true
-                        // },
-                        // password: {
-                        //     minlength: 5
-                        // },
-                        // password_confirmation: {
-                        //     equalTo : "#password"
-                        // }
+                        employee_id: "required",
+                        first_name: "required",
+                        last_name: "required",
+                        role: "required",
+                        position: "required",
+                        username: "required",
+                        email: {
+                            required: true,
+                            email: true
+                        },
+                        password: {
+                            minlength: 5
+                        },
+                        password_confirmation: {
+                            equalTo : "#password"
+                        }
                     },
                     submitHandler: function(form) {
                         // $(form).find('button').attr('disabled', true)
