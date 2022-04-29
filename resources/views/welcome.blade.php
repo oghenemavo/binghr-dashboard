@@ -594,7 +594,14 @@
                     }
                 };
                 
-                $(`#edit-user-${dt.index()}`).validate({
+                $('#update_user').validate({
+                    errorClass: 'invalid-feedback',
+                    highlight: function(element, errorClass, validClass) {
+                        $(element).parent().find('input').addClass('is-invalid').removeClass('is-valid');
+                    },
+                    unhighlight: function(element, errorClass, validClass) {
+                        $(element).parent().find('input').removeClass('is-invalid').addClass('is-valid');
+                    },
                     rules: {
                         employee_id: "required",
                         first_name: "required",
