@@ -21,3 +21,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::get('/get/users', [DataController::class, 'users'])->name('api.get.users');
 Route::delete('/delete/user', [DataController::class, 'deleteUser'])->name('api.delete.user');
+Route::put('/edit/user/{user?}', [DataController::class, 'updateUser'])->name('api.update.user');

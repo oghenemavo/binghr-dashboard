@@ -33,10 +33,32 @@ class UserRepository
         });
     }
 
-    public function update()
+    public function update(array $attributes, User $user)
     {
+        return DB::transaction(function () use ($attributes, $user) {
+            $user->employee_id = data_get($attributes, 'employee_id');
+            $user->first_name = data_get($attributes, 'first_name');
+            $user->last_name = data_get($attributes, 'last_name');
+            $user->phone = data_get($attributes, 'mobile_no');
+            $user->position = data_get($attributes, 'position');
+            $user->email = data_get($attributes, 'email');
+            $user->username = data_get($attributes, 'username');
+    
+            $password = data_get($attributes, 'password');
+            if ($password && !empty($password)) {
+                $user->password = Hash::make($password);
+            }
+    
+            $role_id = data_get($attributes, 'role');
+    
+            $user->save();
+    
+            $user->roles()->sync([$role_id]);
 
+            return response()->json(['status' => true, 'user' => $user, 'message' => 'user updated successfully']);
+        });
     }
+
     public function forceDelete($attributes)
     {
         $user = User::find($attributes);

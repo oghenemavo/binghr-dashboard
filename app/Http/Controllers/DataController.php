@@ -23,6 +23,7 @@ class DataController extends Controller
             $data['initials'] = strtoupper($item->first_name[0]) . '' . strtoupper($item->last_name[0]);
             $data['created_at'] = date('dS M, Y', strtotime($item->created_at));
             $data['name'] = ucfirst($item->first_name) . ' ' . $item->last_name;
+            $data['role_id'] = $item->roles->first()->pivot->role_id;
 
             return $data;
         });
@@ -35,5 +36,10 @@ class DataController extends Controller
     public function deleteUser(Request $request, UserRepository $repository)
     {
         return $repository->forceDelete($request->user_id);
+    }
+
+    public function updateUser(Request $request, UserRepository $repository, User $user)
+    {
+        return $repository->update($request->all(), $user);
     }
 }
