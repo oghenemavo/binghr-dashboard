@@ -19,4 +19,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('/get/users', [DataController::class, 'users']);
+Route::get('/get/users', [DataController::class, 'users'])->name('api.get.users');
+Route::delete('/delete/user', [DataController::class, 'deleteUser'])->name('api.delete.user');

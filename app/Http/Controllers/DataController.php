@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Repositories\UserRepository;
 use Illuminate\Http\Request;
 
 class DataController extends Controller
@@ -19,6 +20,9 @@ class DataController extends Controller
             $data['position'] = $item->position;
             $data['email'] = $item->email;
             $data['username'] = $item->username;
+            $data['initials'] = strtoupper($item->first_name[0]) . '' . strtoupper($item->last_name[0]);
+            $data['created_at'] = date('dS M, Y', strtotime($item->created_at));
+            $data['name'] = ucfirst($item->first_name) . ' ' . $item->last_name;
 
             return $data;
         });
@@ -26,5 +30,10 @@ class DataController extends Controller
         return response()->json([
             'users' => $mapped_users,
         ]);
+    }
+
+    public function deleteUser(Request $request, UserRepository $repository)
+    {
+        return $repository->forceDelete($request->user_id);
     }
 }

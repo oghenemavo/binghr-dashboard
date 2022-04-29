@@ -37,9 +37,15 @@ class UserRepository
     {
 
     }
-    public function forceDelete()
+    public function forceDelete($attributes)
     {
+        $user = User::find($attributes);
 
+        if ($user) {
+            $user->delete();
+            return response()->json(['status' => true, 'message' => 'user deleted successfully']);
+        }
+        return response()->json(['status' => false, 'message' => 'unable to delete user']);
     }
 
 }
