@@ -2,8 +2,10 @@
 
 namespace App\Repositories;
 
+use App\Models\Permission;
 use App\Models\Role;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
@@ -11,7 +13,10 @@ class UserRepository
 {
     public function create(array $attributes)
     {
+        
         return DB::transaction(function () use ($attributes) {
+            $permission = [];
+            
             $user = User::create([
                 'employee_id' => data_get($attributes, 'employee_id'),
                 'first_name' => data_get($attributes, 'first_name'),
@@ -27,6 +32,38 @@ class UserRepository
                 $role = Role::find($role_id);
         
                 $user->roles()->attach($role);
+            }
+
+            if (count($attributes['permission'])) {
+                foreach($attributes['permission'] as $key => $value) {
+                    $permission[$key] = [
+                        'user_id' => $user->id,
+                        'role_id' => $key,
+                        'read' => '0',
+                        'write' => '0',
+                        'delete' => '0',
+                        'created_at' => Carbon::now(),
+                        'updated_at' => Carbon::now(),
+                    ];
+
+                    foreach($value as $perm) {
+        
+                        if ($perm == 'read') {
+                            $permission[$key]['read'] = '1';
+                        }
+        
+                        if ($perm == 'write') {
+                            $permission[$key]['write'] = '1';
+                        }
+        
+                        if ($perm == 'delete') {
+                            $permission[$key]['delete'] = '1';
+                        }
+        
+                    }
+
+                }
+                Permission::insert($permission);
             }
 
             return $user;

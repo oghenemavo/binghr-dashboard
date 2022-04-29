@@ -236,78 +236,26 @@
                                         </tr>
                                       </thead>
                                       <tbody>
-                                        <tr>
-                                          <th scope="row">Super Admin</th>
-                                          <td>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" id="" name="">
-                                            </div>
-                                          </td>
-                                          <td>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" id="" name="">
-                                            </div>
-                                          </td>
-                                          <td>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" id="" name="">
-                                            </div>
-                                          </td>
-                                        </tr>
-                                        <tr>
-                                          <th scope="row">Admin</th>
-                                          <td>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" id="" name="">
-                                            </div>
-                                          </td>
-                                          <td>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" id="" name="">
-                                            </div>
-                                          </td>
-                                          <td>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" id="" name="">
-                                            </div>
-                                          </td>
-                                        </tr>
-                                        <tr>
-                                          <th scope="row">Employee</th>
-                                          <td>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" id="" name="">
-                                            </div>
-                                          </td>
-                                          <td>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" id="" name="">
-                                            </div>
-                                          </td>
-                                          <td>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" id="" name="">
-                                            </div>
-                                          </td>
-                                        </tr>
-                                        <tr>
-                                          <th scope="row">HR Admin</th>
-                                          <td>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" id="" name="">
-                                            </div>
-                                          </td>
-                                          <td>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" id="" name="">
-                                            </div>
-                                          </td>
-                                          <td>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" id="" name="">
-                                            </div>
-                                          </td>
-                                        </tr>
+                                        @foreach($roles as $role)
+                                            <tr>
+                                                <th scope="row">{{ $role->name }}</th>
+                                                <td>
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="checkbox" id="" name="permission[{{ $role->id }}][]" value="read">
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="checkbox" id="" name="permission[{{ $role->id }}][]" value="write">
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="checkbox" id="" name="permission[{{ $role->id }}][]" value="delete">
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        @endforeach
                                     </tbody>
                                 </table>
 
