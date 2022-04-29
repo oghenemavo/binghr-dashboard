@@ -147,10 +147,11 @@
                                     <div class="col">
                                         <select id="position" name="position" class="custom-select @error('position') is-invalid @enderror">
                                             <option value="">Choose Position...</option>
-                                            <option value="admin">Admin</option>
-                                            <option value="admin">Admin</option>
-                                            <option value="admin">Admin</option>
-                                            <option value="admin">Admin</option>
+                                            <option value="CEO & Founder">CEO & Founder</option>
+                                            <option value="HR">HR</option>
+                                            <option value="Team Lead">Team Lead</option>
+                                            <option value="Product Designer">Product Designer</option>
+                                            <option value="Software Engineer">Software Engineer</option>
                                         </select>
                                         @error('position')
                                             <span class="invalid-feedback" role="alert">
@@ -180,7 +181,9 @@
                                     <div class="col">
                                         <select id="role" name="role" class="custom-select @error('role') is-invalid @enderror">
                                             <option value="">Choose Role...</option>
-                                            <option value="admin">Admin</option>
+                                            @foreach($roles as $role)
+                                                <option value="{{ $role->id }}">{{ $role->name }}</option>
+                                            @endforeach
                                         </select>
                                         @error('role')
                                             <span class="invalid-feedback" role="alert">
