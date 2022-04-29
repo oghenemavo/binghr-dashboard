@@ -73,6 +73,8 @@ class UserRepository
     public function update(array $attributes, User $user)
     {
         return DB::transaction(function () use ($attributes, $user) {
+            $permission = [];
+
             $user->employee_id = data_get($attributes, 'employee_id');
             $user->first_name = data_get($attributes, 'first_name');
             $user->last_name = data_get($attributes, 'last_name');
@@ -85,12 +87,53 @@ class UserRepository
             if ($password && !empty($password)) {
                 $user->password = Hash::make($password);
             }
-    
-            $role_id = data_get($attributes, 'role');
-    
+
             $user->save();
+            
+            $role_id = data_get($attributes, 'role');
+
+            if ($user->roles->first()->pivot->role_id != $role_id) {
+                $user->roles()->sync([$role_id]);
+            }
+
+            if (count($attributes['permission'])) {
+                foreach($attributes['permission'] as $key => $value) {
+                    $permission[$key] = [
+                        'user_id' => $user->id,
+                        'role_id' => $key,
+                        'read' => '0',
+                        'write' => '0',
+                        'delete' => '0',
+                    ];
     
-            $user->roles()->sync([$role_id]);
+                    foreach($value as $perm) {
+        
+                        if ($perm == 'read') {
+                            $permission[$key]['read'] = '1';
+                        }
+        
+                        if ($perm == 'write') {
+                            $permission[$key]['write'] = '1';
+                        }
+        
+                        if ($perm == 'delete') {
+                            $permission[$key]['delete'] = '1';
+                        }
+        
+                    }
+                }
+    
+                
+                foreach ($permission as $key => $data) {
+                    Permission::where('user_id', $user->id)->where('role_id', $key)->update([
+                        'read' => $data['read'] ?? '0',
+                        'write' => $data['write'] ?? '0',
+                        'delete' => $data['delete'] ?? '0',
+                        'updated_at' => Carbon::now(),
+                    ]);
+                }
+    
+            }
 
             return response()->json(['status' => true, 'user' => $user, 'message' => 'user updated successfully']);
         });
