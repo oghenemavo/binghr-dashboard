@@ -320,15 +320,41 @@
                     { 
                         data: 'name',
                         render: function(data, type, full, meta) {
+                            var role = full.role;
+                            var badge = '';
+                            switch (role) {
+                                case 'Admin':
+                                    badge = 'primary';
+                                    break;
+
+                                case 'Super Admin':
+                                    badge = 'success';
+                                    break;
+
+                                case 'HR Admin':
+                                    badge = 'warning';
+                                    break;
+
+                                case 'Employee':
+                                    badge = 'danger';
+                                    break;
+                            
+                                default:
+                                    badge = 'info';
+                                    break;
+                            }
                             return `
-                                <div class="user-card">
-                                    <div class="user-avatar bg-dim-primary d-none d-sm-flex">
-                                        <span>${full.initials}</span>
+                                <div class="d-flex justify-content-between">
+                                    <div class="user-card">
+                                        <div class="user-avatar bg-dim-primary d-none d-sm-flex">
+                                            <span>${full.initials}</span>
+                                        </div>
+                                        <div class="user-info">
+                                            <span class="tb-lead">${full.name} <span class="dot dot-success d-md-none ms-1"></span></span>
+                                            <span>${full.email}</span>
+                                        </div>
                                     </div>
-                                    <div class="user-info">
-                                        <span class="tb-lead">${full.name} <span class="dot dot-success d-md-none ms-1"></span></span>
-                                        <span>${full.email}</span>
-                                    </div>
+                                    <span style="align-self: flex-start;" class="my-auto badge badge-${badge}">${role}</span>
                                 </div>
                             `;
                         }

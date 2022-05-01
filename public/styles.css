@@ -113,7 +113,7 @@ nav ul li a i {
 }
 
 .user-card {
-    display: flex;
+    display: inline-flex;
     align-items: center;
 }
 
